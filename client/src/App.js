@@ -1,44 +1,10 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import Auth0 from './components/Auth0'
+import Home from './components/Home'
 
-class App extends Component {
-  render() {
-    const { user } = this.props
-    return (
-      <Router>
-        {/* <div>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-          </ul>
-          <hr /> */}
-        <Switch>
-          <Route exact path="/">
-            {user.loggedIn ? 'Heyo!!!!' : <Redirect />}
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-        </Switch>
-        {/* </div> */}
-      </Router>
-    )
-  }
+export default function App() {
+  const authenticated = useSelector((state) => state.auth.authenticated)
+  if (!authenticated) return <Auth0 />
+  else return <Home />
 }
-
-const mapStateToProps = state => ({
-  user: state.user
-})
-
-export default connect(mapStateToProps)(App)
