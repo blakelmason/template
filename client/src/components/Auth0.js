@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import {connect } from 'react-redux'
 import { authenticate, auth0Client } from '../reducers/auth'
 import { Button } from 'react-bootstrap'
 import createAuth0Client from '@auth0/auth0-spa-js'
 
-export default function Auth0() {
-  const auth0 = useSelector((state) => state.auth.auth0)
+function Auth0() {
   const [loading, setLoading] = useState(true)
-  const dispatch = useDispatch()
 
   useEffect(() => {
     auth()
@@ -38,3 +36,9 @@ export default function Auth0() {
     </div>
   )
 }
+
+const mapDispatchToProps = {
+  dispatch
+}
+
+export default
