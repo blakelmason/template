@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { authenticate, auth0Client } from '../reducers/auth'
 import { Button } from 'react-bootstrap'
 import createAuth0Client from '@auth0/auth0-spa-js'
+import axios from 'axios'
 
 export default function Auth0() {
   const auth0 = useSelector((state) => state.auth.auth0)
@@ -18,8 +19,10 @@ export default function Auth0() {
       })
       dispatch(auth0Client(auth0))
       const authenticated = await auth0.isAuthenticated()
-      if (authenticated) dispatch(authenticate())
-      else setLoading(false)
+      if (authenticated) {
+        axios.defaults.headers['Authorization'] = await auth0.getTokenSilently()
+        dispatch(authenticate())
+      } else setLoading(false)
     }
   }, [dispatch])
 
