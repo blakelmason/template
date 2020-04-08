@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import {connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { authenticate, auth0Client } from '../reducers/auth'
 import { Button } from 'react-bootstrap'
 import createAuth0Client from '@auth0/auth0-spa-js'
 
-function Auth0() {
+export default function Auth0() {
+  const auth0 = useSelector((state) => state.auth.auth0)
   const [loading, setLoading] = useState(true)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     auth()
@@ -19,7 +21,7 @@ function Auth0() {
       if (authenticated) dispatch(authenticate())
       else setLoading(false)
     }
-  }, [])
+  }, [dispatch])
 
   const login = async () => {
     await auth0.loginWithPopup()
@@ -36,9 +38,3 @@ function Auth0() {
     </div>
   )
 }
-
-const mapDispatchToProps = {
-  dispatch
-}
-
-export default
